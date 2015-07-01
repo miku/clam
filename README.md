@@ -47,7 +47,7 @@ Running with a *pipe* and a temporary output:
     )
 
     func main() {
-        err := clam.Run("echo Hello,World,! | cut -d, -f2 > {{ output }}", clam.Map{})
+        clam.Run("echo Hello,World,! | cut -d, -f2 > {{ output }}", clam.Map{})
         if err != nil {
             log.Fatal(err)
         }
@@ -64,7 +64,7 @@ Running the above will create a temporary file:
 Catching the output
 -------------------
 
-Running with a pipe and a temporary output, this time, we want the filename returned to our program:
+Running with a pipe and a temporary output, this time, we want the filename returned to our program.
 
     package main
 
@@ -84,3 +84,6 @@ Running the above will create a temporary file:
     $ go run examples/withoutput.go
     2015/07/01 02:46:55 echo Hello,World,! | cut -d, -f2 > /tmp/clam-558261601
     2015/07/01 02:46:55 Find output at /tmp/clam-558261601
+
+The output can be returned as `*os.File` and `*bufio.Reader` as well with
+`clam.RunFile` and `clam.RunReader`, respectively.
