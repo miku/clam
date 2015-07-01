@@ -75,7 +75,7 @@ Running with a pipe and a temporary output, this time, we want the filename retu
     )
 
     func main() {
-        output, _ := clam.RunOutput("echo Hello,World,! | cut -d, -f2 > {{ output }}", clam.Map{})
+        output, _ := clam.RunOutput("echo A,B | cut -d, -f2 > {{ output }}", clam.Map{})
         log.Printf("Find output at %s", output)
     }
 
