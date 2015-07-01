@@ -2,7 +2,7 @@ package main
 
 import (
 	"bytes"
-	"fmt"
+	"log"
 
 	"github.com/miku/clam"
 )
@@ -12,5 +12,5 @@ func main() {
 	r := clam.Runner{Stdout: buf}
 
 	_ = r.Run("echo Hello,World,! | awk -F, '{print $2}'", clam.Map{})
-	fmt.Printf("%s", buf.String())
+	log.Print(buf.String())
 }

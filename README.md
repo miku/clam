@@ -157,7 +157,7 @@ package main
 
 import (
     "bytes"
-    "fmt"
+    "log"
 
     "github.com/miku/clam"
 )
@@ -167,12 +167,12 @@ func main() {
     r := clam.Runner{Stdout: buf}
 
     _ = r.Run("echo Hello,World,! | awk -F, '{print $2}'", clam.Map{})
-    fmt.Printf("%s", buf.String())
+    log.Print(buf.String())
 }
 ```
 
 Run:
 
     $ go run examples/buffer/main.go
-    2015/07/01 11:54:23 echo Hello,World,! | awk -F, '{print $2}'
-    World
+    2015/07/01 15:42:09 echo Hello,World,! | awk -F, '{print $2}'
+    2015/07/01 15:42:09 World
