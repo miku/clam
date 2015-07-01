@@ -7,7 +7,7 @@ import (
 )
 
 func main() {
-	output, err := clam.RunOutput("echo Hello,World,! | cut -d, -f2 > {{ output }}", clam.Map{})
+	output, err := clam.RunOutput("echo A,B | cut -d, -f2 > {{ output }}", clam.Map{})
 	if err != nil {
 		log.Fatal(err)
 	}

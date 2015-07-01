@@ -82,7 +82,7 @@ Running with a pipe and a temporary output, this time, we want the filename retu
 Running the above will create a temporary file:
 
     $ go run examples/withoutput/main.go
-    2015/07/01 02:46:55 echo Hello,World,! | cut -d, -f2 > /tmp/clam-558261601
+    2015/07/01 02:46:55 echo A,B | cut -d, -f2 > /tmp/clam-558261601
     2015/07/01 02:46:55 Find output at /tmp/clam-558261601
 
 The output can be returned as `*os.File` and `*bufio.Reader` as well with
