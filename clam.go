@@ -11,7 +11,10 @@ import (
 	"github.com/hoisie/mustache"
 )
 
-const DefaultShell = "/bin/bash"
+const (
+	DefaultShell = "/bin/bash"
+	Version      = "0.1.0"
+)
 
 type Map map[string]string
 
