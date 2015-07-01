@@ -109,3 +109,33 @@ This will simply append to the given file:
     $ cat /tmp/zzzz
     Hello
     World
+
+Timeouts
+--------
+
+Define a timeout in runner:
+
+    package main
+
+    import (
+        "log"
+        "os"
+        "time"
+
+        "github.com/miku/clam"
+    )
+
+    func main() {
+        r := clam.Runner{Stdout: os.Stdout, Stderr: os.Stderr, Timeout: 50 * time.Millisecond}
+        err := r.Run("sleep 1", clam.Map{})
+        if err != nil {
+            log.Fatal(err)
+        }
+    }
+
+This will kill the command process, if it won't exit in time:
+
+    $ go run examples/timeout/main.go
+    2015/07/01 10:53:21 sleep 1
+    2015/07/01 10:53:21 timed out: sleep 1
+    exit status 1
