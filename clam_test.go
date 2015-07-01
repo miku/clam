@@ -3,7 +3,10 @@ package clam
 import (
 	"bufio"
 	"io/ioutil"
+	"log"
+	"os"
 	"testing"
+	"time"
 )
 
 func TestRun(t *testing.T) {
@@ -105,6 +108,26 @@ func TestRunner(t *testing.T) {
 		}
 
 		file.Sync()
+	}
+}
+
+func TestRunnerTimeout(t *testing.T) {
+	var r Runner
+	var err error
+
+	r = Runner{Stdout: os.Stdout, Stderr: os.Stderr, Timeout: 50 * time.Millisecond}
+	_, err = r.RunOutput("sleep 1", Map{})
+	switch err.(type) {
+	default:
+		t.Errorf("got %s, want %s", err, Timeout{})
+	case Timeout:
+		log.Println(err)
+	}
+
+	r = Runner{Timeout: 2 * time.Second}
+	_, err = r.RunOutput("sleep 0.1", Map{})
+	if err != nil {
+		t.Errorf("got %s, want %s", err, nil)
 	}
 }
 

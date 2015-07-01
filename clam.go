@@ -2,11 +2,13 @@ package clam
 
 import (
 	"bufio"
+	"fmt"
 	"io"
 	"io/ioutil"
 	"log"
 	"os"
 	"os/exec"
+	"time"
 
 	"github.com/fatih/color"
 	"github.com/hoisie/mustache"
@@ -19,9 +21,18 @@ const (
 
 type Map map[string]string
 
+type Timeout struct {
+	Message string
+}
+
+func (t Timeout) Error() string {
+	return t.Message
+}
+
 type Runner struct {
-	Stderr io.Writer
-	Stdout io.Writer
+	Stderr  io.Writer
+	Stdout  io.Writer
+	Timeout time.Duration
 }
 
 var defaultRunner = Runner{Stderr: os.Stderr, Stdout: os.Stdout}
@@ -46,7 +57,26 @@ func (r Runner) RunOutput(t string, m Map) (string, error) {
 	cmd := exec.Command(DefaultShell, "-c", c)
 	cmd.Stdout = r.Stdout
 	cmd.Stderr = r.Stderr
-	return m["output"], cmd.Run()
+
+	done := make(chan bool)
+	errc := make(chan error)
+
+	if r.Timeout == 0 {
+		return m["output"], cmd.Run()
+	}
+
+	go func() {
+		err := cmd.Run()
+		done <- true
+		errc <- err
+	}()
+	select {
+	case <-time.After(r.Timeout):
+		_ = cmd.Process.Kill()
+		return "", Timeout{fmt.Sprintf("timed out: %s", c)}
+	case <-done:
+		return m["output"], <-errc
+	}
 }
 
 // Run a templated command with a given parameter map.
