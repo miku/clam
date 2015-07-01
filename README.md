@@ -28,7 +28,7 @@ A simple command
 
 Output would be:
 
-    $ go run examples/simple.go
+    $ go run examples/simple/main.go
     2015/07/01 02:37:36 echo Hello World
     Hello World
 
@@ -55,7 +55,7 @@ Running with a *pipe* and a temporary output:
 
 Running the above will create a temporary file:
 
-    $ go run examples/pipe.go
+    $ go run examples/pipe/main.go
     2015/07/01 02:41:11 echo Hello,World,! | cut -d, -f2 > /tmp/clam-370786565
 
     $ cat /tmp/clam-370786565
@@ -81,7 +81,7 @@ Running with a pipe and a temporary output, this time, we want the filename retu
 
 Running the above will create a temporary file:
 
-    $ go run examples/withoutput.go
+    $ go run examples/withoutput/main.go
     2015/07/01 02:46:55 echo Hello,World,! | cut -d, -f2 > /tmp/clam-558261601
     2015/07/01 02:46:55 Find output at /tmp/clam-558261601
 
