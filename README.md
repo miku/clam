@@ -142,3 +142,31 @@ This will kill the command process, if it won't exit in time:
     2015/07/01 10:53:21 sleep 1
     2015/07/01 10:53:21 timed out: sleep 1
     exit status 1
+
+Absorb streams
+--------------
+
+You can use a buffer to directly absorb stdout or strerr:
+
+    package main
+
+    import (
+        "bytes"
+        "fmt"
+
+        "github.com/miku/clam"
+    )
+
+    func main() {
+        buf := new(bytes.Buffer)
+        r := clam.Runner{Stdout: buf}
+
+        _ = r.Run("echo Hello,World,! | awk -F, '{print $2}'", clam.Map{})
+        fmt.Printf("%s", buf.String())
+    }
+
+Run:
+
+    $ go run examples/buffer/main.go
+    2015/07/01 11:54:23 echo Hello,World,! | awk -F, '{print $2}'
+    World
