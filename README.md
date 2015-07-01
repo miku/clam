@@ -13,20 +13,22 @@ Examples
 A simple command
 ----------------
 
-    package main
+```go
+package main
 
-    import (
-        "log"
+import (
+    "log"
 
-        "github.com/miku/clam"
-    )
+    "github.com/miku/clam"
+)
 
-    func main() {
-        err := clam.Run("echo Hello {{ name }}", clam.Map{"name": "World"})
-        if err != nil {
-            log.Fatal(err)
-        }
+func main() {
+    err := clam.Run("echo Hello {{ name }}", clam.Map{"name": "World"})
+    if err != nil {
+        log.Fatal(err)
     }
+}
+```
 
 Output would be:
 
@@ -39,17 +41,19 @@ Command with pipe
 
 Running with a *pipe* and a temporary output:
 
-    package main
+```go
+package main
 
-    import (
-        "log"
+import (
+    "log"
 
-        "github.com/miku/clam"
-    )
+    "github.com/miku/clam"
+)
 
-    func main() {
-        clam.Run("echo A,B | cut -d, -f2 > {{ output }}", clam.Map{})
-    }
+func main() {
+    clam.Run("echo A,B | cut -d, -f2 > {{ output }}", clam.Map{})
+}
+```
 
 Running the above will create a temporary file:
 
@@ -64,18 +68,20 @@ Catching the output
 
 Running with a pipe and a temporary output, this time, we want the filename returned to our program.
 
-    package main
+```go
+package main
 
-    import (
-        "log"
+import (
+    "log"
 
-        "github.com/miku/clam"
-    )
+    "github.com/miku/clam"
+)
 
-    func main() {
-        output, _ := clam.RunOutput("echo A,B | cut -d, -f2 > {{ output }}", clam.Map{})
-        log.Printf("find output at %s", output)
-    }
+func main() {
+    output, _ := clam.RunOutput("echo A,B | cut -d, -f2 > {{ output }}", clam.Map{})
+    log.Printf("find output at %s", output)
+}
+```
 
 Running the above will create a temporary file:
 
@@ -88,17 +94,19 @@ The output can be returned as `*os.File` and `*bufio.Reader` as well with
 
 The `output` parameter can also be passed:
 
-    package main
+```go
+package main
 
-    import (
-        "github.com/miku/clam"
-    )
+import (
+    "github.com/miku/clam"
+)
 
-    func main() {
-        fn := "/tmp/zzzz"
-        clam.Run("echo Hello >> {{ output }}", clam.Map{"output": fn})
-        clam.Run("echo World >> {{ output }}", clam.Map{"output": fn})
-    }
+func main() {
+    fn := "/tmp/zzzz"
+    clam.Run("echo Hello >> {{ output }}", clam.Map{"output": fn})
+    clam.Run("echo World >> {{ output }}", clam.Map{"output": fn})
+}
+```
 
 This will simply append to the given file:
 
@@ -115,22 +123,24 @@ Timeouts
 
 Define a timeout in runner:
 
-    package main
+```go
+package main
 
-    import (
-        "log"
-        "time"
+import (
+    "log"
+    "time"
 
-        "github.com/miku/clam"
-    )
+    "github.com/miku/clam"
+)
 
-    func main() {
-        r := clam.NewRunnerTimeout(50 * time.Millisecond)
-        err := r.Run("sleep 1", clam.Map{})
-        if err != nil {
-            log.Fatal(err)
-        }
+func main() {
+    r := clam.NewRunnerTimeout(50 * time.Millisecond)
+    err := r.Run("sleep 1", clam.Map{})
+    if err != nil {
+        log.Fatal(err)
     }
+}
+```
 
 This will kill the command process, if it won't exit in time:
 
