@@ -127,7 +127,7 @@ func TestRunnerTimeout(t *testing.T) {
 	r = Runner{Timeout: 2 * time.Second}
 	_, err = r.RunOutput("sleep 0.1", Map{})
 	if err != nil {
-		t.Errorf("got %s, want %s", err, nil)
+		t.Errorf("got %s, want %v", err, nil)
 	}
 }
 
