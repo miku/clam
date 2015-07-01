@@ -44,11 +44,7 @@ Running with a *pipe* and a temporary output:
 ```go
 package main
 
-import (
-    "log"
-
-    "github.com/miku/clam"
-)
+import "github.com/miku/clam"
 
 func main() {
     clam.Run("echo A,B | cut -d, -f2 > {{ output }}", clam.Map{})
@@ -97,9 +93,7 @@ The `output` parameter can also be passed:
 ```go
 package main
 
-import (
-    "github.com/miku/clam"
-)
+import "github.com/miku/clam"
 
 func main() {
     fn := "/tmp/zzzz"
