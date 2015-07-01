@@ -1,7 +1,8 @@
 README
 ======
 
-clam is a shell utility. It will run templated commands. Note: This library is in development and APIs might change, use at your own risk.
+clam is a shell utility. It will run templated commands. Note: This library is
+in development and APIs might change, use at your own risk.
 
 [![Build Status](https://travis-ci.org/miku/clam.svg?branch=master)](https://travis-ci.org/miku/clam)
 
@@ -9,6 +10,9 @@ clam is a shell utility. It will run templated commands. Note: This library is i
 
 Examples
 --------
+
+You can find most of the example as ready to run files under
+[examples](https://github.com/miku/clam/tree/master/examples).
 
 A simple command
 ----------------
