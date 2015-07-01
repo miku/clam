@@ -5,6 +5,8 @@ clam is a shell utility. It will run templated commands.
 
 [![Build Status](https://travis-ci.org/miku/clam.svg?branch=master)](https://travis-ci.org/miku/clam)
 
+Note: This library is in development and APIs might change, use at your own risk.
+
 ![6943](http://etc.usf.edu/clipart/6900/6943/clam-shell_6943_sm.gif)
 
 Examples
