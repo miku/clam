@@ -37,6 +37,10 @@ type Runner struct {
 
 var defaultRunner = Runner{Stderr: os.Stderr, Stdout: os.Stdout}
 
+func NewRunnerTimeout(t time.Duration) Runner {
+	return Runner{Stderr: os.Stderr, Stdout: os.Stdout, Timeout: t}
+}
+
 func (r Runner) Run(t string, m Map) error {
 	_, err := r.RunOutput(t, m)
 	return err
