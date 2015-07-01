@@ -3,7 +3,11 @@ README
 
 clam is a shell utility. It will run templated commands.
 
-    $ cat examples/simple.go
+Examples
+--------
+
+Running a *simple* command:
+
     package main
 
     import (
@@ -25,7 +29,9 @@ Output would be:
     2015/07/01 02:37:36 echo Hello World
     Hello World
 
-Running with a pipe and a temporary output:
+----
+
+Running with a *pipe* and a temporary output:
 
     package main
 
@@ -49,3 +55,26 @@ Running the above will create a temporary file:
 
     $ cat /tmp/clam-370786565
     World
+
+----
+
+Running with a pipe and a temporary output, this time, we want the filename returned to our program:
+
+    package main
+
+    import (
+        "log"
+
+        "github.com/miku/clam"
+    )
+
+    func main() {
+        output, _ := clam.RunOutput("echo Hello,World,! | cut -d, -f2 > {{ output }}", clam.Map{})
+        log.Printf("Find output at %s", output)
+    }
+
+Running the above will create a temporary file:
+
+    $ go run examples/withoutput.go
+    2015/07/01 02:46:55 echo Hello,World,! | cut -d, -f2 > /tmp/clam-558261601
+    2015/07/01 02:46:55 Find output at /tmp/clam-558261601
