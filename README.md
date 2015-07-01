@@ -45,7 +45,7 @@ Running with a pipe and a temporary output:
 Running the above will create a temporary file:
 
     $ go run examples/pipe.go
-    2015/07/01 02:41:11 echo Hello,World,! | cut -d, -f2 > /var/folders/cj/hpk8c18n19n3x56_8bk5wb0w0000gn/T/clam-370786565
+    2015/07/01 02:41:11 echo Hello,World,! | cut -d, -f2 > /tmp/clam-370786565
 
-    $ cat /var/folders/cj/hpk8c18n19n3x56_8bk5wb0w0000gn/T/clam-370786565
+    $ cat /tmp/clam-370786565
     World
