@@ -3,6 +3,8 @@ README
 
 clam is a shell utility. It will run templated commands.
 
+[![Build Status](https://travis-ci.org/miku/clam.svg?branch=master)](https://travis-ci.org/miku/clam)
+
 Examples
 --------
 
