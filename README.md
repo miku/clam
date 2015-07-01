@@ -152,22 +152,24 @@ Absorb streams
 
 You can use a buffer to directly absorb stdout or strerr:
 
-    package main
+```go
+package main
 
-    import (
-        "bytes"
-        "fmt"
+import (
+    "bytes"
+    "fmt"
 
-        "github.com/miku/clam"
-    )
+    "github.com/miku/clam"
+)
 
-    func main() {
-        buf := new(bytes.Buffer)
-        r := clam.Runner{Stdout: buf}
+func main() {
+    buf := new(bytes.Buffer)
+    r := clam.Runner{Stdout: buf}
 
-        _ = r.Run("echo Hello,World,! | awk -F, '{print $2}'", clam.Map{})
-        fmt.Printf("%s", buf.String())
-    }
+    _ = r.Run("echo Hello,World,! | awk -F, '{print $2}'", clam.Map{})
+    fmt.Printf("%s", buf.String())
+}
+```
 
 Run:
 
