@@ -41,6 +41,26 @@ func NewRunnerTimeout(t time.Duration) Runner {
 	return Runner{Stderr: os.Stderr, Stdout: os.Stdout, Timeout: t}
 }
 
+func (r Runner) RunFile(t string, m Map) (*os.File, error) {
+	filename, err := r.RunOutput(t, m)
+	if err != nil {
+		return nil, err
+	}
+	file, err := os.Open(filename)
+	if err != nil {
+		return file, err
+	}
+	return file, err
+}
+
+func (r Runner) RunReader(t string, m Map) (*bufio.Reader, error) {
+	file, err := r.RunFile(t, m)
+	if err != nil {
+		return nil, err
+	}
+	return bufio.NewReader(file), nil
+}
+
 func (r Runner) Run(t string, m Map) error {
 	_, err := r.RunOutput(t, m)
 	return err
@@ -90,32 +110,19 @@ func (r Runner) RunOutput(t string, m Map) (string, error) {
 
 // Run a templated command with a given parameter map.
 func Run(t string, m Map) error {
-	_, err := RunOutput(t, m)
-	return err
+	return defaultRunner.Run(t, m)
 }
 
 // RunFile a templated command with a given parameter map. Return the output
 // as file object.
 func RunFile(t string, m Map) (*os.File, error) {
-	filename, err := RunOutput(t, m)
-	if err != nil {
-		return nil, err
-	}
-	file, err := os.Open(filename)
-	if err != nil {
-		return file, err
-	}
-	return file, err
+	return defaultRunner.RunFile(t, m)
 }
 
 // RunReader a templated command with a given parameter map. Return the output
 // as a buffered reader.
 func RunReader(t string, m Map) (*bufio.Reader, error) {
-	file, err := RunFile(t, m)
-	if err != nil {
-		return nil, err
-	}
-	return bufio.NewReader(file), nil
+	return defaultRunner.RunReader(t, m)
 }
 
 // RunOutput a templated command with a given parameter map. If the parameter map
