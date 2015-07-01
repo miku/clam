@@ -6,7 +6,8 @@ clam is a shell utility. It will run templated commands.
 Examples
 --------
 
-Running a *simple* command:
+A simple command
+----------------
 
     package main
 
@@ -29,7 +30,9 @@ Output would be:
     2015/07/01 02:37:36 echo Hello World
     Hello World
 
-----
+
+Command with pipe
+-----------------
 
 Running with a *pipe* and a temporary output:
 
@@ -56,7 +59,8 @@ Running the above will create a temporary file:
     $ cat /tmp/clam-370786565
     World
 
-----
+Catching the output
+-------------------
 
 Running with a pipe and a temporary output, this time, we want the filename returned to our program:
 
