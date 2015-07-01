@@ -1,4 +1,5 @@
 test:
+	go get ./...
 	go test -v .
 
 imports:
