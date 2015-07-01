@@ -2,6 +2,7 @@ package clam
 
 import (
 	"bufio"
+	"io"
 	"io/ioutil"
 	"log"
 	"os"
@@ -17,6 +18,36 @@ const (
 )
 
 type Map map[string]string
+
+type Runner struct {
+	Stderr io.Writer
+	Stdout io.Writer
+}
+
+var defaultRunner = Runner{Stderr: os.Stderr, Stdout: os.Stdout}
+
+func (r Runner) RunOutput(t string, m Map) (string, error) {
+	output, ok := m["output"]
+	if !ok || output == "" {
+		if output == "" {
+			f, err := ioutil.TempFile("", "clam-")
+			if err != nil {
+				return output, err
+			}
+			m["output"] = f.Name()
+		}
+	}
+	c := mustache.Render(t, m)
+
+	color.Set(color.FgGreen)
+	log.Println(c)
+	color.Unset()
+
+	cmd := exec.Command(DefaultShell, "-c", c)
+	cmd.Stdout = r.Stdout
+	cmd.Stderr = r.Stderr
+	return m["output"], cmd.Run()
+}
 
 // Run a templated command with a given parameter map.
 func Run(t string, m Map) error {
@@ -52,24 +83,5 @@ func RunReader(t string, m Map) (*bufio.Reader, error) {
 // contains a parameter named output and it's the empty string, insert a
 // temporary filename.
 func RunOutput(t string, m Map) (string, error) {
-	output, ok := m["output"]
-	if !ok || output == "" {
-		if output == "" {
-			f, err := ioutil.TempFile("", "clam-")
-			if err != nil {
-				return output, err
-			}
-			m["output"] = f.Name()
-		}
-	}
-	c := mustache.Render(t, m)
-
-	color.Set(color.FgGreen)
-	log.Println(c)
-	color.Unset()
-
-	cmd := exec.Command(DefaultShell, "-c", c)
-	cmd.Stdout = os.Stdout
-	cmd.Stderr = os.Stderr
-	return m["output"], cmd.Run()
+	return defaultRunner.RunOutput(t, m)
 }

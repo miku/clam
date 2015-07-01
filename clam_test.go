@@ -62,6 +62,52 @@ func TestRunOutput(t *testing.T) {
 	}
 }
 
+func TestRunner(t *testing.T) {
+	var cases = []struct {
+		tmpl   string
+		ctx    Map
+		err    error
+		output string
+	}{
+		{
+			tmpl:   "echo Hello {{name}}",
+			ctx:    Map{"name": "World"},
+			err:    nil,
+			output: "Hello World\n",
+		},
+		{
+			tmpl:   "echo Hello,World | cut -d, -f2",
+			ctx:    Map{},
+			output: "World\n",
+		},
+	}
+	for _, c := range cases {
+		file, err := ioutil.TempFile("", "clam-test-")
+		if err != nil {
+			t.Error(err)
+		}
+		r := Runner{
+			Stdout: file,
+		}
+
+		_, err = r.RunOutput(c.tmpl, c.ctx)
+		if c.err != err {
+			t.Errorf("failed with %s: %+v", err, c)
+		}
+
+		b, err := ioutil.ReadFile(file.Name())
+		if err != nil {
+			t.Error(err)
+		}
+
+		if string(b) != c.output {
+			t.Errorf("got %s, want %s", string(b), c.output)
+		}
+
+		file.Sync()
+	}
+}
+
 func TestRunFile(t *testing.T) {
 	var cases = []struct {
 		tmpl   string
