@@ -48,16 +48,16 @@ Running with a *pipe* and a temporary output:
     )
 
     func main() {
-        clam.Run("echo Hello,World,! | cut -d, -f2 > {{ output }}", clam.Map{})
+        clam.Run("echo A,B | cut -d, -f2 > {{ output }}", clam.Map{})
     }
 
 Running the above will create a temporary file:
 
     $ go run examples/pipe/main.go
-    2015/07/01 02:41:11 echo Hello,World,! | cut -d, -f2 > /tmp/clam-370786565
+    2015/07/01 02:41:11 echo A,B | cut -d, -f2 > /tmp/clam-370786565
 
     $ cat /tmp/clam-370786565
-    World
+    B
 
 Catching the output
 -------------------
@@ -74,14 +74,14 @@ Running with a pipe and a temporary output, this time, we want the filename retu
 
     func main() {
         output, _ := clam.RunOutput("echo A,B | cut -d, -f2 > {{ output }}", clam.Map{})
-        log.Printf("Find output at %s", output)
+        log.Printf("find output at %s", output)
     }
 
 Running the above will create a temporary file:
 
     $ go run examples/withoutput/main.go
     2015/07/01 02:46:55 echo A,B | cut -d, -f2 > /tmp/clam-558261601
-    2015/07/01 02:46:55 Find output at /tmp/clam-558261601
+    2015/07/01 02:46:55 find output at /tmp/clam-558261601
 
 The output can be returned as `*os.File` and `*bufio.Reader` as well with
 `clam.RunFile` and `clam.RunReader`, respectively.
@@ -98,9 +98,6 @@ The `output` parameter can also be passed:
         fn := "/tmp/zzzz"
         clam.Run("echo Hello >> {{ output }}", clam.Map{"output": fn})
         clam.Run("echo World >> {{ output }}", clam.Map{"output": fn})
-        // $ cat /tmp/zzzz
-        // Hello
-        // World
     }
 
 This will simply append to the given file:
