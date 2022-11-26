@@ -2,7 +2,7 @@ README
 ======
 
 clam is a shell utility. It will run templated commands. Note: This library is
-in development and APIs might change, use at your own risk.
+in development, may be buggy and the API might change, use at your own risk.
 
 [![Build Status](https://travis-ci.org/miku/clam.svg?branch=master)](https://travis-ci.org/miku/clam)
 
